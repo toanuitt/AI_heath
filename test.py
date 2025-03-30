@@ -6,7 +6,7 @@ from PIL import Image
 import base64
 import io
 
-def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, cuff_class_name="sphygmomanometer cuff", threshold=10):
+def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, cuff_class_name="arm cuff", threshold=10):
     """
     Detects whether a blood pressure cuff is positioned up, down, or centered (OK)
     relative to the line between left shoulder and left elbow.
@@ -47,7 +47,7 @@ def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_pat
     left_elbow = keypoints[0][7][:2]     # x, y coordinates of left elbow (keypoint index 7)
     
     # Detect cuff
-    seg_results = segment_model.predict(pil_image, conf=0.3, verbose=False)
+    seg_results = segment_model.predict(pil_image, conf=0.15, verbose=False)
     detections = sv.Detections.from_ultralytics(seg_results[0])
     
     if len(detections.xyxy) == 0:
