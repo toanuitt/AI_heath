@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package cuff_detection;
+
+// Service definition
+service CuffDetectionService {
+  // Method to detect cuff position from base64 image
+  rpc DetectCuffPosition (CuffDetectionRequest) returns (CuffDetectionResponse);
+}
+
+// Request message containing the base64 image and detection parameters
+message CuffDetectionRequest {
+  string base64_image = 1;
+  optional int32 threshold = 2;  // Optional threshold parameter
+}
+
+// Response message with detection results
+message CuffDetectionResponse {
+  string position = 1;           // "up", "down", "OK", or error message
+  bool success = 2;              // Whether detection succeeded
+  string error_message = 3;      // Error message if detection failed
+}

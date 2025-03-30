@@ -1,6 +1,7 @@
 opencv-python 
 torch 
 numpy
+grpc
 
 git+https://github.com/THU-MIG/yoloe.git#subdirectory=third_party/CLIP
 git+https://github.com/THU-MIG/yoloe.git#subdirectory=third_party/ml-mobileclip
