@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package cuff_detection;
 
-// Service definition
+// Service definition with bidirectional streaming
 service CuffDetectionService {
-  // Method to detect cuff position from base64 image
-  rpc DetectCuffPosition (CuffDetectionRequest) returns (CuffDetectionResponse);
+  // Bidirectional streaming RPC for real-time cuff detection
+  rpc DetectCuffPosition (stream CuffDetectionRequest) returns (stream CuffDetectionResponse);
 }
 
-// Request message containing the base64 image and detection parameters
+// Request message containing the base64 image
 message CuffDetectionRequest {
   string base64_image = 1;
   optional int32 threshold = 2;  // Optional threshold parameter

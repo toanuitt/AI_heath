@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\x12\x0e\x63uff_detection\"R\n\x14\x43uffDetectionRequest\x12\x14\n\x0c\x62\x61se64_image\x18\x01 \x01(\t\x12\x16\n\tthreshold\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x0c\n\n_threshold\"Q\n\x15\x43uffDetectionResponse\x12\x10\n\x08position\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t2y\n\x14\x43uffDetectionService\x12\x61\n\x12\x44\x65tectCuffPosition\x12$.cuff_detection.CuffDetectionRequest\x1a%.cuff_detection.CuffDetectionResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\x12\x0e\x63uff_detection\"R\n\x14\x43uffDetectionRequest\x12\x14\n\x0c\x62\x61se64_image\x18\x01 \x01(\t\x12\x16\n\tthreshold\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x0c\n\n_threshold\"Q\n\x15\x43uffDetectionResponse\x12\x10\n\x08position\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t2}\n\x14\x43uffDetectionService\x12\x65\n\x12\x44\x65tectCuffPosition\x12$.cuff_detection.CuffDetectionRequest\x1a%.cuff_detection.CuffDetectionResponse(\x01\x30\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,5 +36,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CUFFDETECTIONRESPONSE']._serialized_start=117
   _globals['_CUFFDETECTIONRESPONSE']._serialized_end=198
   _globals['_CUFFDETECTIONSERVICE']._serialized_start=200
-  _globals['_CUFFDETECTIONSERVICE']._serialized_end=321
+  _globals['_CUFFDETECTIONSERVICE']._serialized_end=325
 # @@protoc_insertion_point(module_scope)

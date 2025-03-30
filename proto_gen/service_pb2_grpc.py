@@ -26,7 +26,7 @@ if _version_not_supported:
 
 
 class CuffDetectionServiceStub(object):
-    """Service definition
+    """Service definition with bidirectional streaming
     """
 
     def __init__(self, channel):
@@ -35,7 +35,7 @@ class CuffDetectionServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.DetectCuffPosition = channel.unary_unary(
+        self.DetectCuffPosition = channel.stream_stream(
                 '/cuff_detection.CuffDetectionService/DetectCuffPosition',
                 request_serializer=service__pb2.CuffDetectionRequest.SerializeToString,
                 response_deserializer=service__pb2.CuffDetectionResponse.FromString,
@@ -43,11 +43,11 @@ class CuffDetectionServiceStub(object):
 
 
 class CuffDetectionServiceServicer(object):
-    """Service definition
+    """Service definition with bidirectional streaming
     """
 
-    def DetectCuffPosition(self, request, context):
-        """Method to detect cuff position from base64 image
+    def DetectCuffPosition(self, request_iterator, context):
+        """Bidirectional streaming RPC for real-time cuff detection
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -56,7 +56,7 @@ class CuffDetectionServiceServicer(object):
 
 def add_CuffDetectionServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'DetectCuffPosition': grpc.unary_unary_rpc_method_handler(
+            'DetectCuffPosition': grpc.stream_stream_rpc_method_handler(
                     servicer.DetectCuffPosition,
                     request_deserializer=service__pb2.CuffDetectionRequest.FromString,
                     response_serializer=service__pb2.CuffDetectionResponse.SerializeToString,
@@ -70,11 +70,11 @@ def add_CuffDetectionServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class CuffDetectionService(object):
-    """Service definition
+    """Service definition with bidirectional streaming
     """
 
     @staticmethod
-    def DetectCuffPosition(request,
+    def DetectCuffPosition(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -84,8 +84,8 @@ class CuffDetectionService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
+        return grpc.experimental.stream_stream(
+            request_iterator,
             target,
             '/cuff_detection.CuffDetectionService/DetectCuffPosition',
             service__pb2.CuffDetectionRequest.SerializeToString,

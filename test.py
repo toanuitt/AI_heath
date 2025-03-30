@@ -25,7 +25,6 @@ def detect_cuff_position(image_path, threshold=10):
     # Read image and encode to base64
     with open(image_path, "rb") as image_file:
         base64_image = base64.b64encode(image_file.read()).decode("utf-8")
-    
     # Connect to server
     with grpc.insecure_channel('localhost:50051') as channel:
         # Create stub
