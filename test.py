@@ -81,9 +81,9 @@ def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_pat
         position = "up" if perp_projection > 0 else "down"
     
     # Visualize the results
-    vis_image_bytes = visualize_result(image, left_shoulder, left_elbow, cuff_center, position, perp_projection)
+    #vis_image_bytes = visualize_result(image, left_shoulder, left_elbow, cuff_center, position, perp_projection)
     
-    return position, vis_image_bytes
+    return position#, vis_image_bytes
 
 # def visualize_result(image, left_shoulder, left_elbow, cuff_center, position, distance):
 #     """
@@ -146,10 +146,4 @@ if __name__ == "__main__":
     position, vis_image_bytes = detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, threshold=10)
     print(f"Cuff position: {position}")
     
-    # If you need the visualization as base64 for web display
-    if vis_image_bytes:
-        vis_base64 = base64.b64encode(vis_image_bytes).decode("utf-8")
-        print(f"Visualization base64: {vis_base64[:30]}...") # Print just the beginning
-        
-        # To display in HTML you would use:
-        # <img src="data:image/jpeg;base64,{vis_base64}" />
+  
