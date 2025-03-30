@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Define model paths
 POSE_MODEL_PATH = "yolo11n-pose.pt"
-SEGMENT_MODEL_PATH = "yoloe-v8l-seg.pt"
+SEGMENT_MODEL_PATH = "yoloe-11l-seg.pt"
 CUFF_CLASS_NAME = "sphygmomanometer cuff"
 DEFAULT_THRESHOLD = 10
 
