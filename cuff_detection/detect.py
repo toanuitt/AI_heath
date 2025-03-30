@@ -46,7 +46,7 @@ def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_pat
     left_elbow = keypoints[0][7][:2]     # x, y coordinates of left elbow (keypoint index 7)
     
     # Detect cuff
-    seg_results = segment_model.predict(pil_image, conf=0.3, verbose=False)
+    seg_results = segment_model.predict(pil_image, conf=0.1, verbose=False)
     detections = sv.Detections.from_ultralytics(seg_results[0])
     
     if len(detections.xyxy) == 0:
@@ -81,14 +81,14 @@ def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_pat
     
     return position
 
-# Test function when running this file directly
-if __name__ == "__main__":
-    # Load image and convert to base64
-    with open("./d.jpg", "rb") as image_file:
-        base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+# # Test function when running this file directly
+# if __name__ == "__main__":
+#     # Load image and convert to base64
+#     with open("./d.jpg", "rb") as image_file:
+#         base64_image = base64.b64encode(image_file.read()).decode("utf-8")
     
-    pose_model_path = "yolo11n-pose.pt"
-    segment_model_path = "yoloe-v8l-seg.pt"
+#     pose_model_path = "yolo11n-pose.pt"
+#     segment_model_path = "yoloe-v8l-seg.pt"
     
-    position = detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, threshold=10)
-    print(f"Cuff position: {position}")
+#     position = detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, threshold=10)
+#     print(f"Cuff position: {position}")
