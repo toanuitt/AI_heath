@@ -143,7 +143,7 @@ if __name__ == "__main__":
     pose_model_path = "/path/to/yolo11n-pose.pt"
     segment_model_path = "/path/to/yoloe-v8l-seg.pt"
     
-    position, vis_image_bytes = detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, threshold=10)
+    position = detect_cuff_position_base64(base64_image, pose_model_path, segment_model_path, threshold=10)
     print(f"Cuff position: {position}")
     
   
