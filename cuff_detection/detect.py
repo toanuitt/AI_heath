@@ -63,21 +63,20 @@ def detect_cuff_position_base64(base64_image, pose_model_path, segment_model_pat
     arm_vector = left_elbow - left_shoulder
     arm_length = np.linalg.norm(arm_vector)
     arm_unit_vector = arm_vector / arm_length
-    
-    # Calculate perpendicular vector (90 degrees counterclockwise rotation)
     perp_vector = np.array([-arm_unit_vector[1], arm_unit_vector[0]])
-    
-    # Vector from shoulder to cuff center
     cuff_vector = cuff_center - left_shoulder
+    arm_projection = np.dot(cuff_vector, arm_unit_vector)
+    projected_point = left_shoulder + arm_projection * arm_unit_vector
+    perp_vector_to_cuff = cuff_center - projected_point
+    perp_distance = np.linalg.norm(perp_vector_to_cuff)
     
-    # Project cuff vector onto perpendicular direction
-    perp_projection = np.dot(cuff_vector, perp_vector)
-    
-    # Determine if cuff is up, down, or centered (OK) relative to arm line
-    if abs(perp_projection) <= threshold:
+
+    is_between = 0 <= arm_projection <= arm_length
+    if is_between and perp_distance <= threshold:
         position = "OK"
     else:
-        position = "up" if perp_projection > 0 else "down"
+        cross_product_z = arm_vector[0] * perp_vector_to_cuff[1] - arm_vector[1] * perp_vector_to_cuff[0]
+        position = "up" if cross_product_z < 0 else "down"
     
     return position
 
