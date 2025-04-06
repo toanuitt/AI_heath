@@ -5,8 +5,8 @@ import sys
 import os
 import logging
 
-# Import the function from your existing module
-from cuff_detection import detect_cuff_position_base64
+# Import the enhanced detection function
+from cuff_detection import detect_health_metrics
 
 # Add paths for the generated proto files
 sys.path.append(os.path.join(os.path.dirname(__file__), 'proto_gen'))
@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Define model paths
 POSE_MODEL_PATH = "yolo11n-pose.pt"
-SEGMENT_MODEL_PATH = "yoloe-v8l-seg.pt"
+SEGMENT_MODEL_PATH = "yoloe-11l-seg.pt"
 CUFF_CLASS_NAME = "arm cuff"
 DEFAULT_THRESHOLD = 10
 
@@ -28,18 +28,15 @@ class CuffDetectionServicer(service_pb2_grpc.CuffDetectionServiceServicer):
     def __init__(self):
         logging.info("Initializing CuffDetectionServicer")
 
-    def DetectCuffPosition(self, request_iterator, context):
+    def DetectCuffPosition(self, request, context):
         logging.info("Received detection request")
         try:
-            # Get the first request from the iterator
-            request = next(request_iterator)
-            
             # Extract parameters from request
             base64_image = request.base64_image
             threshold = request.threshold if request.HasField("threshold") else DEFAULT_THRESHOLD
             
-            # Call the detection function
-            position = detect_cuff_position_base64(
+            # Call the enhanced detection function
+            result = detect_health_metrics(
                 base64_image, 
                 POSE_MODEL_PATH, 
                 SEGMENT_MODEL_PATH, 
@@ -47,22 +44,19 @@ class CuffDetectionServicer(service_pb2_grpc.CuffDetectionServiceServicer):
                 threshold=threshold
             )
             
-            # Yield the response for streaming
-            yield service_pb2.CuffDetectionResponse(
-                position=position,
-                success=True,
-                error_message=""
+            # Return single response
+            return service_pb2.CuffDetectionResponse(
+                position=result.position,
+                success=result.success,
+                error_message=result.error_message,
+                posture_correct=result.posture_correct,
+                position_correct=result.position_correct,
+                is_talking=result.is_talking
             )
             
-        except StopIteration:
-            yield service_pb2.CuffDetectionResponse(
-                position="Error",
-                success=False,
-                error_message="No request received"
-            )
         except Exception as e:
             logging.error(f"Error processing request: {str(e)}")
-            yield service_pb2.CuffDetectionResponse(
+            return service_pb2.CuffDetectionResponse(
                 position="Error",
                 success=False,
                 error_message=str(e)
