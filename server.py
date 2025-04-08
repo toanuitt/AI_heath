@@ -125,23 +125,6 @@ def serve():
         logging.info("Server shutting down...")
         server.stop(0)
 
-def serve_chat():
-    """Start the chat server"""
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    service_pb2_grpc.add_ChatServiceServicer_to_server(ChatServicer(), server)
-    
-    server_address = '[::]:50052'  # Use different port from cuff detection
-    server.add_insecure_port(server_address)
-    server.start()
-    
-    logging.info(f"Chat server started on {server_address}")
-    
-    try:
-        server.wait_for_termination()
-    except KeyboardInterrupt:
-        logging.info("Chat server shutting down...")
-        server.stop(0)
-
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    serve_chat()
+    serve()
