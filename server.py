@@ -79,20 +79,33 @@ class ChatServicer(service_pb2_grpc.ChatServiceServicer):
         Handle streaming chat via gRPC
         """
         try:
+            import asyncio
+            
             for request in request_iterator:
-                # Use ChatService to handle messages
-                async for response in self.chat_service.chat(request.message):
-                    if response["is_error"]:
-                        yield service_pb2.ChatResponse(
-                            message="",
-                            is_error=True,
-                            error_message=response["error_message"]
-                        )
-                    else:
-                        yield service_pb2.ChatResponse(
-                            message=response["content"],
-                            is_error=False
-                        )
+                # Create a new event loop for each request
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                
+                # Use run_until_complete to handle the async iterator
+                async def process_chat():
+                    async for response in self.chat_service.chat(request.message):
+                        if response["is_error"]:
+                            yield service_pb2.ChatResponse(
+                                message="",
+                                is_error=True,
+                                error_message=response["error_message"]
+                            )
+                        else:
+                            yield service_pb2.ChatResponse(
+                                message=response["content"],
+                                is_error=False
+                            )
+                
+                # Run the async function and yield its results
+                for response in loop.run_until_complete(self._collect_responses(process_chat())):
+                    yield response
+                
+                loop.close()
                     
         except Exception as e:
             yield service_pb2.ChatResponse(
@@ -100,7 +113,14 @@ class ChatServicer(service_pb2_grpc.ChatServiceServicer):
                 is_error=True, 
                 error_message=f"Stream error: {str(e)}"
             )
-
+    
+    async def _collect_responses(self, async_iterator):
+        """Helper method to collect all responses from an async iterator"""
+        responses = []
+        async for response in async_iterator:
+            responses.append(response)
+        return responses
+        
 def serve():
     """Start the combined server with both services"""
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
