@@ -1,8 +1,10 @@
 opencv-python 
 torch 
 numpy
-grpc
+grpcio
 face_recognition
+openai
+python-dotenv
 
 git+https://github.com/THU-MIG/yoloe.git#subdirectory=third_party/CLIP
 git+https://github.com/THU-MIG/yoloe.git#subdirectory=third_party/ml-mobileclip
