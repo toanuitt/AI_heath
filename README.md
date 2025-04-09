@@ -10,3 +10,6 @@ add checkpoint to folder AI health
 
 https://drive.google.com/drive/folders/1ebXMkvQCPXTBtGbOunyUhbm3JJSFCPqt
 
+```bash
+docker build -t ai-health-server .
+docker run -it --rm -p 50051:50051 -e OPENAI_API_KEY="your_key" ai-health-server
