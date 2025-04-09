@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libx11-dev \
     libatlas-base-dev \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
