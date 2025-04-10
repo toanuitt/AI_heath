@@ -5,6 +5,9 @@ grpcio
 face_recognition
 openai
 python-dotenv
+google
+protobuf
+google-cloud
 
 git+https://github.com/THU-MIG/yoloe.git#subdirectory=third_party/CLIP
 git+https://github.com/THU-MIG/yoloe.git#subdirectory=third_party/ml-mobileclip
