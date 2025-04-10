@@ -20,16 +20,17 @@ RUN apt-get update && apt-get install -y \
     libprotobuf-dev \
     && rm -rf /var/lib/apt/lists/*
 # Copy requirements first for better caching
+wget https://docs-assets.developer.apple.com/ml-research/datasets/mobileclip/mobileclip_blt.pt
+
 COPY requirements.txt .
 # Install Python dependencies
+
 RUN pip install --no-cache-dir -r requirements.txt
 # Copy models first
-COPY models/ /app/models/
-# Copy the rest of the application
 COPY . .
 # Environment variables
 ENV PYTHONPATH=/app
-ENV MODEL_PATH=/app/models
+
 # Expose port
 EXPOSE 50051
 # Command to run the server
